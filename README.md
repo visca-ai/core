@@ -244,35 +244,106 @@ VISCA provides enterprise-grade security for open-source AI tools:
 - **Audit Logging**: Comprehensive logs for compliance reporting
 - **Data Lineage**: Track data flow through AI systems
 
-## FAQ
+# VISCA FAQ
 
-<details>
-<summary><b>How is VISCA different from just using Docker/Kubernetes?</b></summary>
-<p>
-VISCA adds AI-specific security controls, compliance features, and standardized templates on top of container orchestration. While you could build these yourself, VISCA saves months of custom development and security review cycles.
-</p>
-</details>
+## Business & Value
 
-<details>
-<summary><b>Does VISCA work in air-gapped environments?</b></summary>
-<p>
-Yes! VISCA Enterprise supports fully air-gapped deployments with offline model delivery, updates, and compliance reporting.
-</p>
-</details>
+### Why do enterprises need VISCA instead of just using individual ai tools like ChatGPT, Cursor or Claude directly?
 
-<details>
-<summary><b>How do you handle model weights and large files?</b></summary>
-<p>
-VISCA includes efficient model storage, versioning, and delivery mechanisms optimized for large AI assets, with optional compression and chunking for improved deployment speed.
-</p>
-</details>
+Regulated enterprises (banks, hospitals, government) can't send proprietary data to public AI APIs due to compliance requirements. They need to run AI tools on their own infrastructure, but each open-source tool currently takes 6+ months of security reviews. VISCA packages these tools with enterprise security built-in, reducing deployment time to minutes.
 
-<details>
-<summary><b>What's your pricing model?</b></summary>
-<p>
-VISCA follows a tiered approach: free open-source CLI, team SaaS ($50/user/month), and enterprise deployments (starting at $50K annually). Contact us for custom pricing.
-</p>
-</details>
+### How much does the 6-month security review process actually cost enterprises?
+
+Our research shows large enterprises spend $50K-200K per AI tool in security review costs (staff time, delays, opportunity cost). Multiply this by 10-50 AI tools a typical enterprise wants to deploy, and you're looking at millions in hidden costs. VISCA eliminates most of this overhead.
+
+### How is this different from just using Docker or Kubernetes?
+
+VISCA adds AI-specific security controls, compliance features, and standardized templates. While you could build this yourself, VISCA saves 6+ months of custom development and security reviews. We're the "Red Hat for AI tools" - taking open-source and making it enterprise-ready.
+
+## Technical Implementation
+
+### What AI tools does VISCA support?
+
+We start with Model Context Protocol (MCP) servers because MCP is becoming the standard interface for AI tools. This includes GitHub Copilot MCP servers, document processors, code assistants, and custom AI agents. We'll expand to support all types of open-source AI tools - the applications and services, not the underlying models.
+
+### Can VISCA run in our air-gapped environment?
+
+Yes. VISCA Enterprise supports fully air-gapped deployments with offline tool updates and compliance reporting. This is critical for defense contractors, intelligence agencies, and highly regulated financial institutions.
+
+### What infrastructure does VISCA require?
+
+VISCA works on existing infrastructure: Docker, Kubernetes, VMs, or bare metal. Minimum requirements are modest - you can start with a single server. For production deployments, we recommend Kubernetes for scalability and high availability.
+
+## Security & Compliance
+
+### How does VISCA ensure our data never leaves our environment?
+
+All AI processing happens within your infrastructure. VISCA workspaces are isolated containers that cannot communicate externally unless explicitly configured. We provide network policies, egress controls, and data loss prevention to ensure data sovereignty.
+
+### What compliance standards does VISCA support?
+
+VISCA is being designed with controls for SOC 2, ISO 27001, HIPAA, FedRAMP, and PCI DSS in mind. We're building audit logging, access controls, vulnerability scanning, and compliance reporting capabilities.
+
+### How do you prevent supply chain attacks on AI tools?
+
+VISCA will include cryptographic verification of AI tool packages and dependencies, vulnerability scanning of components, and isolated execution environments. We're building security verification capabilities for AI tools.
+
+### Can we integrate VISCA with our existing SSO and access controls?
+
+Yes. VISCA Enterprise integrates with LDAP, Active Directory, SAML, and OIDC providers. We support fine-grained RBAC, group-based access controls, and automated user provisioning/deprovisioning.
+
+## Pricing & Business Model
+
+### What's your pricing model?
+
+| Feature | Community | Standard | Premium | Enterprise |
+|---------|-----------|----------|---------|------------|
+| **Base Price** | Free | $6/user/month | $17/user/month | Custom Pricing |
+| **Minimum Commitment** | - | Monthly | Annual | Annual |
+| **AI Workspace Templates** | ✅ | ✅ | ✅ | ✅ |
+| **CLI Management** | ✅ | ✅ | ✅ | ✅ |
+| **Team Collaboration** | ✅ | ✅ | ✅ | ✅ |
+| **Web UI** | ❌ | ✅ | ✅ | ✅ |
+| **SSO Integration** | ❌ | ❌ | ✅ | ✅ |
+| **RBAC & Groups** | ❌ | ❌ | ✅ | ✅ |
+| **Compliance Reporting** | ❌ | ❌ | ✅ | ✅ |
+| **Audit Logging** | ❌ | ❌ | ❌ | ✅ |
+| **Air-gapped Deployment** | ❌ | ❌ | ❌ | ✅ |
+| **Custom Templates** | ❌ | ❌ | ❌ | ✅ |
+| **Support Level** | Community | Business Hours | 24/7 | Dedicated CSM |
+
+**Volume discounts available:** 10+ workspaces get 10-25% off depending on tier.  
+**Enterprise pricing:** Contact [enterprise@visca.ai](mailto:enterprise@visca.ai) for custom pricing based on deployment requirements, security needs, and support level.
+
+### Why should we pay for this instead of building it ourselves?
+
+Building enterprise-grade AI infrastructure typically takes 12-18 months and costs $500K-2M in engineering time. You'd need expertise in AI, security, compliance, and infrastructure. VISCA gives you this immediately for a fraction of the cost, plus ongoing updates and support.
+
+### Do you offer professional services for deployment?
+
+For enterprise customers, we provide deployment assistance, security integration consulting, and ongoing support as we scale.
+
+## Getting Started
+
+### How long does it take to deploy VISCA?
+
+VISCA is currently in development. We're targeting:
+
+- **Alpha release**: Q2 2025
+- **Beta with early customers**: Q3-Q4 2025
+- **Production-ready**: 2026
+
+### What's included in a pilot program?
+
+We're developing pilot programs for early enterprise customers. Contact us to discuss requirements and timeline.
+
+### How do we get started?
+
+1. **Schedule demo**: See VISCA development roadmap and planned features
+2. **Early access**: Join our beta program for MVP testing
+3. **Partnership**: Work with us to shape enterprise requirements
+
+Contact [enterprise@visca.ai](mailto:enterprise@visca.ai) to begin.
 
 ## Contributing
 
