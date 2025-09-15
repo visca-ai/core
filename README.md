@@ -248,9 +248,9 @@ VISCA provides enterprise-grade security for open-source AI tools:
 
 ## Business & Value
 
-### Why do enterprises need VISCA instead of just using individual ai tools like ChatGPT, Cursor or Claude directly?
+### Why do enterprises need VISCA instead of just using individual ai tools directly?
 
-Regulated enterprises (banks, hospitals, government) can't send proprietary data to public AI APIs due to compliance requirements. They need to run AI tools on their own infrastructure, but each open-source tool currently takes 6+ months of security reviews. VISCA packages these tools with enterprise security built-in, reducing deployment time to minutes.
+Regulated enterprises (banks, hospitals, government) can't send proprietary data to public AI APIs due to compliance requirements. They need to run open-source AI tools on their own infrastructure, but each open-source tool currently takes 6+ months of security reviews. VISCA packages these tools with enterprise security built-in, reducing deployment time to minutes.
 
 ### How much does the 6-month security review process actually cost enterprises?
 
