@@ -329,8 +329,8 @@ For enterprise customers, we provide deployment assistance, security integration
 
 VISCA is currently in development. We're targeting:
 
-- **Alpha release**: Q2 2025
-- **Beta with early customers**: Q3-Q4 2025
+- **Alpha release**: Q3 2025
+- **Beta with early customers**: Q4 2025
 - **Production-ready**: 2026
 
 ### What's included in a pilot program?
