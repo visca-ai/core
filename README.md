@@ -8,6 +8,10 @@
 
 VISCA (Verifiable, Interoperable, Secure, Compliant AI) transforms unmanageable open-source AI tools into secure, compliant, enterprise-ready workspaces - it's like the Red Hat OpenShift for AI tools that brings enterprise security and governance to the open-source AI ecosystem.
 
+We're making software that lets enterprises deploy open-source AI tooling safely in minutes instead of waiting 6+ months for security approval. Think of it as "run your own AI tool fleet" that companies install on their own servers.
+
+VISCA packages open-source AI tooling like GitHub Copilot MCP servers, document processors, and code assistants into secure workspaces with built-in compliance controls, audit logging, and enterprise security features. Over 15,000 regulated enterprises need this - banks, hospitals, and government agencies that want AI tooling but can't use public APIs.
+
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT)
 
 ## The Problem
