@@ -312,7 +312,7 @@ Yes. VISCA Enterprise integrates with LDAP, Active Directory, SAML, and OIDC pro
 | **Custom Templates** | ❌ | ❌ | ❌ | ✅ |
 | **Support Level** | Community | Business Hours | 24/7 | Dedicated CSM |
 
-**Volume discounts available:** 10+ workspaces get 10-25% off depending on tier.  
+**Volume discounts available:** 10+ users get 10-25% off depending on tier.  
 **Enterprise pricing:** Contact [enterprise@visca.ai](mailto:enterprise@visca.ai) for custom pricing based on deployment requirements, security needs, and support level.
 
 ### Why should we pay for this instead of building it ourselves?
