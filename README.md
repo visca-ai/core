@@ -1,374 +1,325 @@
-# VISCA - Enterprise Fleet Management For Open Source AI
+# VISCA
 
-<p align="center">
-  <img src="https://assets.wirtual.dev/wirtual-icon.png" alt="VISCA Logo" width="200"/>
-  <br>
-  <em>Deploy and manage open-source AI tools as secure workspaces</em>
-</p>
+**Open Source RL Environment Collaboration Platform**
 
-VISCA (Verifiable, Interoperable, Secure, Compliant AI) transforms unmanageable open-source AI tools into secure, compliant, enterprise-ready workspaces - it's like the Red Hat OpenShift for AI tools that brings enterprise security and governance to the open-source AI ecosystem.
+[![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](https://opensource.org/licenses/MIT)
+[![Python 3.8+](https://img.shields.io/badge/python-3.8+-blue.svg)](https://www.python.org/downloads/)
+[![Build Status](https://img.shields.io/github/workflow/status/visca-ai/visca/CI)](https://github.com/visca-ai/visca/actions)
 
-We're making software that lets enterprises deploy open-source AI tooling safely in minutes instead of waiting 6+ months for security approval. Think of it as "run your own AI tool fleet" that companies install on their own servers.
+[Quickstart](#quickstart) | [Docs](https://docs.visca.ai) | [CLI Reference](#cli-reference) | [Installation](#installation)
 
-VISCA packages open-source AI tooling like GitHub Copilot MCP servers, document processors, and code assistants into secure workspaces with built-in compliance controls, audit logging, and enterprise security features. Over 15,000 regulated enterprises need this - banks, hospitals, and government agencies that want AI tooling but can't use public APIs.
+VISCA enables organizations to set up RL training environments in their public or private cloud infrastructure. RL environments are defined with templates, connected through secure tunnels, and automatically shut down when not used to save on costs. VISCA gives engineering teams the flexibility to use the cloud for RL workloads most beneficial to them.
 
-[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT)
+- Define RL training environments with templates
+- Automatically shutdown idle resources to save on costs
+- Onboard developers in seconds instead of days
+- Version control environments including forking and sharing
+- Distributed training across GPU clusters
 
-## The Problem
+## Quickstart
 
-**AI adoption in enterprises is stuck:**
+Install VISCA and experiment with provisioning RL training environments:
 
-> "We built an amazing AI proof-of-concept in 2 weeks, then waited 6 months for security approval. By then, the team had moved on." — Fortune 500 AI Product Manager
+```shell
+# Install VISCA
+curl -L https://visca.ai/install.sh | sh
 
-Enterprises face critical barriers to adopting open-source AI tools:
+# Start the VISCA server
+visca server
 
-- **6+ month security reviews** per individual AI tool
-- **Custom infrastructure work** required for each deployment
-- **Compliance gaps** between open-source tools and enterprise requirements
-- **Scaling challenges** across distributed teams and environments
-- **Risk of shadow AI** when teams bypass security to use unapproved tools
+# Navigate to http://localhost:3000 to create your initial user,
+# create a template and provision a workspace
+```
 
-Without a standardized approach, enterprises either block innovation or accept dangerous security risks.
+## Installation
 
-## The Solution
+```shell
+# Install script for Linux and macOS
+curl -L https://visca.ai/install.sh | sh
 
-VISCA is a fleet manager for deploying open-source AI tools as secure, managed workspaces:
+# Start production deployment
+visca server --postgres-url <url> --access-url <url>
+```
 
-- **Open-source CLI:** Deploy and collaborate on AI tool workspaces in minutes
-- **Workspace-based deployment:** Run any open-source AI tool in isolated, secure environments
-- **Team collaboration:** Built into both CLI and web interface
-- **Enterprise controls:** Audit logging, SSO, compliance monitoring
-- **Deployment flexibility:** Cloud, self-hosted, or air-gapped environments
-- **Standard interfaces:** Consistent management across your AI tool fleet
+Use `visca --help` to get a list of flags and environment variables.
 
-## How It Works
+## CLI Reference
 
-```bash
-# Create a secure GitHub Copilot MCP workspace with governance controls
-visca create secure-copilot --template github-copilot-mcp \
-  --parameter "security_pii_detection=enabled" \
-  --parameter "security_code_scanning=enabled" \
-  --parameter "compliance_audit_logging=verbose"
+### Authentication
 
-# Deploy with team access and consistent security policies
-visca create shared-copilot-mcp --template github-copilot-mcp \
-  --org engineering-team \
-  --parameter "allowed_repositories=github.com/your-org/*" \
-  --parameter "network_policy=restricted" 
+```shell
+# Login to VISCA deployment
+visca login [url]
 
-# Monitor usage, performance and compliance across your AI tool fleet
+# Logout from current session
+visca logout
+
+# Show current user info
+visca whoami
+```
+
+### Workspaces
+
+```shell
+# Create a new workspace
+visca create [flags] [name]
+visca create --template my-template my-workspace
+
+# List workspaces
 visca list
-visca schedule status secure-copilot
-visca show secure-copilot --output json > workspace-details.json
+visca list --all
 
-# Scale and manage your AI tool fleet with automatic updates and schedules
-visca create batch-processor --template mcp-llama-70b \
-  --start-at "0 9 * * 1-5" \
-  --stop-after 8h \
-  --automatic-updates always
+# Show workspace details
+visca show <workspace>
+
+# Start/stop workspaces
+visca start <workspace>
+visca stop <workspace>
+visca restart <workspace>
+
+# Delete workspace
+visca delete <workspace>
+
+# Update workspace
+visca update <workspace>
 ```
 
-## Deployment Options
+### Templates
 
-| Feature | Open-Source CLI | Team SaaS | Enterprise |
-|---------|----------------|-----------|------------|
-| MCP Workspace Templates | ✅ | ✅ | ✅ |
-| Secure Deployments | ✅ | ✅ | ✅ |
-| Web Management UI | ❌ | ✅ | ✅ |
-| Team Collaboration | ✅ | ✅ | ✅ |
-| SSO & RBAC | ❌ | ❌ | ✅ |
-| Compliance Reporting | ❌ | ❌ | ✅ |
-| Air-gapped Support | ✅ | ✅ | ✅ |
+```shell
+# List available templates
+visca templates list
 
-## Why VISCA?
+# Create template from current directory
+visca templates push [template]
 
-- **For Developers:** Deploy AI tools without fighting security teams
-- **For Security Teams:** Enforce standards without blocking innovation
-- **For Enterprises:** Adopt AI safely in regulated environments
+# Initialize with example template
+visca templates init
 
-## Architecture
+# Pull template to local directory
+visca templates pull <name> [destination]
 
-```mermaid
-graph TD
-    A[VISCA CLI] --> B[Workspace Manager]
-    B --> C[MCP Templates]
-    B --> D[Security Controls]
-    B --> E[Deployment Engine]
-    E --> F[Docker]
-    E --> G[Kubernetes]
-    E --> H[VM/Bare Metal]
-    I[VISCA Web UI] --> B
-    J[Enterprise Features] --> B
-    J --> K[Audit Logging]
-    J --> L[SSO/RBAC]
-    J --> M[Compliance]
+# Edit template metadata
+visca templates edit <template>
+
+# Delete templates
+visca templates delete [name...]
 ```
 
-## Getting Started
+### SSH and Development
 
-```bash
-# Install the VISCA CLI
-curl -sSL https://get.visca.ai | sh
+```shell
+# SSH into workspace
+visca ssh <workspace>
 
-# Login and create your first workspace
-visca login
-visca create my-first-workspace --template mcp-llama-70b --yes
+# Configure SSH
+visca config-ssh
+
+# Open workspace in VS Code
+visca open vscode <workspace>
+
+# Port forwarding
+visca port-forward <workspace> --tcp 8080:8080
 ```
 
-## MCP Workspace Templates (Coming Soon)
+### Resource Management
 
-VISCA will provide enterprise-ready templates for popular Model Context Protocol servers using Terraform for infrastructure as code:
+```shell
+# Show resource usage
+visca stat
+visca stat cpu
+visca stat mem
+visca stat disk
 
-| Template | Description | Use Case |
-|----------|-------------|----------|
-| `github-copilot-mcp` | GitHub Copilot's MCP server with enterprise security controls | Code generation, PR reviews |
-| `mcp-custom` | Build your own MCP server with security defaults | Custom AI applications |
+# Ping workspace
+visca ping <workspace>
 
-Templates will be defined as `.tf` files, enabling version-controlled infrastructure as code with enterprise-grade security and compliance features built in.
-
-## Project Structure (In Development)
-
-```
-├── cmd/                # Command-line applications
-│   └── visca/          # Main CLI application
-├── pkg/                # Core packages
-│   ├── workspace/      # Workspace management
-│   ├── templates/      # MCP and other tool templates
-│   ├── security/       # Security controls and scanning
-│   ├── deploy/         # Deployment engines
-│   └── api/            # API for Web UI integration
-├── web/                # Web UI (Team and Enterprise)
-└── enterprise/         # Enterprise features
+# Speed test
+visca speedtest <workspace>
 ```
 
-## Infrastructure Support (Coming Soon)
+### Scheduling
 
-VISCA will support multiple infrastructure options including Docker, Kubernetes, and VM/bare metal environments, with consistent security and management interfaces across all deployment targets.
+```shell
+# Show workspace schedules
+visca schedule show <workspace>
 
-## Roadmap & Features
+# Set start schedule
+visca schedule start <workspace> <time>
 
-VISCA is currently in early development. We're building features gradually, starting with MCP workspace management. Below is our feature roadmap:
+# Set stop schedule  
+visca schedule stop <workspace> <duration>
 
-### Core Functionality (In Progress)
-- **MCP Workspace Templates** - Secure deployment patterns for Model Context Protocol servers
-- **CLI Core Functionality** - Basic workspace management capabilities
-- **Deployment Targets** - Support for Docker, Kubernetes, and VM deployments
+# Override stop time
+visca schedule override-stop <workspace> <duration>
+```
 
-### Future Development Roadmap
+### Organizations
 
-| Feature Category | Community Edition | Enterprise Edition |
-|-----------------|-------------------|-------------------|
-| **AI Agents & Integration** |
-| MCP Server Templates | ✅ | ✅ |
-| AI Agent Management | ✅ | ✅ |
-| Task Management | ✅ | ✅ |
-| Boundary Controls | ❌ | ✅ |
-| **Developer Experience** |
-| Unlimited Workspaces | ✅ | ✅ |
-| Cross-platform (Linux, macOS, Windows) | ✅ | ✅ |
-| Web IDE Support | ✅ | ✅ |
-| Desktop IDE Support | ✅ | ✅ |
-| IDE Plugins (VS Code, JetBrains) | ✅ | ✅ |
-| VISCA Desktop | ✅ | ✅ |
-| Dynamic Parameters | ✅ | ✅ |
-| OSS Integrations (Backstage) | ✅ | ✅ |
-| Notifications | ✅ | ✅ |
-| Workspace Autostart/Autostop | ✅ | ✅ |
-| External Authentication Integrations | Limited (1) | Unlimited |
-| **Platform Experience** |
-| Unlimited Templates | ✅ | ✅ |
-| Web UI, CLI, REST API | ✅ | ✅ |
-| Prometheus Metrics | ✅ | ✅ |
-| Template Usage Insights | ❌ | ✅ |
-| Prebuilt Workspaces | ❌ | ✅ |
-| Workspace Proxies | ❌ | ✅ |
-| External Provisioners | ❌ | ✅ |
-| High Availability | ❌ | ✅ |
-| Web UI Notifications | ❌ | ✅ |
-| Quiet Hours | ❌ | ✅ |
-| Customizable Branding | ❌ | ✅ |
-| **User Management** |
-| SSO (OpenID Connect) | ❌ | ✅ |
-| Roles | ❌ | ✅ |
-| Groups | ❌ | ✅ |
-| OIDC Group & Role Sync | ❌ | ✅ |
-| SCIM Provisioning & Deprovisioning | ❌ | ✅ |
-| Multi-organization Access Control | ❌ | ✅ |
-| Custom Roles | ❌ | ✅ |
-| **Cloud Cost Control** |
-| Enforce Workspace Scheduling | ❌ | ✅ |
-| Autostop Requirement | ❌ | ✅ |
-| Resource Quotas per User | ❌ | ✅ |
-| Resource Quotas per Organization | ❌ | ✅ |
-| Clean Up Unused Workspaces | ❌ | ✅ |
-| **Governance** |
-| Audit Logging | ❌ | ✅ |
-| Template Permissions | ❌ | ✅ |
-| Enforce Workspace Updates | ❌ | ✅ |
-| Disable SSH | ❌ | ✅ |
-| Workspace Command Logging | ❌ | ✅ |
-| **Support** |
-| Community Support (GitHub, Discord) | ✅ | ✅ |
-| Ticket-based Global Support | ❌ | ✅ |
-| SLA | ❌ | ✅ |
+```shell
+# Show organization info
+visca organizations show
 
-We're prioritizing development based on customer feedback and market demand. Join our beta program to influence our roadmap!
+# Create organization
+visca organizations create <name>
 
-## Community & Support
+# Manage members
+visca organizations members list
+visca organizations members add <username>
+visca organizations members remove <username>
+```
 
-- [Documentation](https://docs.visca.ai)
-- [GitHub Issues](https://github.com/visca-ai/core/issues)
+### Users
 
-## Enterprise Features
+```shell
+# List users
+visca users list
 
-For enterprise deployments including SSO, compliance features, audit logging, and air-gapped deployments, contact [enterprise@visca.ai](mailto:enterprise@visca.ai).
+# Create user
+visca users create
 
-## Quick Demo
+# Show user details
+visca users show <username>
 
-<p align="center">
-  <a href="https://www.youtube.com/watch?v=dQw4w9WgXcQ">
-    <img src="https://visca.ai/images/demo-screenshot.png" alt="VISCA Demo" width="600"/>
-  </a>
-  <br>
-  <em>Click to watch the demo video</em>
-</p>
+# Activate/suspend users
+visca users activate <username>
+visca users suspend <username>
+```
 
-## Security & Compliance
+### Server Administration
 
-VISCA provides enterprise-grade security for open-source AI tools:
+```shell
+# Start VISCA server
+visca server [flags]
 
-- **Isolated Workspaces**: Containerized environments with network policies
-- **Vulnerability Scanning**: Continuous scanning of dependencies
-- **Secrets Management**: Secure handling of API keys and credentials
-- **Access Controls**: Fine-grained RBAC for workspace access
-- **Audit Logging**: Comprehensive logs for compliance reporting
-- **Data Lineage**: Track data flow through AI systems
+# Create admin user
+visca server create-admin-user
 
-# VISCA FAQ
+# Database operations
+visca server postgres-builtin-url
+visca server postgres-builtin-serve
 
-## Business & Value
+# Support bundle
+visca support bundle <workspace>
+```
 
-### Why do enterprises need VISCA instead of just using individual ai tools directly?
+### Tokens and Authentication
 
-Regulated enterprises (banks, hospitals, government) can't send proprietary data to public AI APIs due to compliance requirements. They need to run open-source AI tools on their own infrastructure, but each open-source tool currently takes 6+ months of security reviews. VISCA packages these tools with enterprise security built-in, reducing deployment time to minutes.
+```shell
+# Create API token
+visca tokens create
 
-### How much does the 6-month security review process actually cost enterprises?
+# List tokens
+visca tokens list
 
-Our research shows large enterprises spend $50K-200K per AI tool in security review costs (staff time, delays, opportunity cost). Multiply this by 10-50 AI tools a typical enterprise wants to deploy, and you're looking at millions in hidden costs. VISCA eliminates most of this overhead.
+# Remove token
+visca tokens remove <name>
 
-### How is this different from just using Docker or Kubernetes?
+# External authentication
+visca external-auth access-token <provider>
+```
 
-VISCA adds AI-specific security controls, compliance features, and standardized templates. While you could build this yourself, VISCA saves 6+ months of custom development and security reviews. We're the "Red Hat for AI tools" - taking open-source and making it enterprise-ready.
+### Utilities
 
-## Technical Implementation
+```shell
+# Network diagnostics
+visca netcheck
 
-### What AI tools does VISCA support?
+# Version information
+visca version
 
-We start with Model Context Protocol (MCP) servers because MCP is becoming the standard interface for AI tools. This includes GitHub Copilot MCP servers, document processors, code assistants, and custom AI agents. We'll expand to support all types of open-source AI tools - the applications and services, not the underlying models.
+# Shell completion
+visca completion
 
-### Can VISCA run in our air-gapped environment?
+# Dotfiles setup
+visca dotfiles <git_repo_url>
 
-Yes. VISCA Enterprise supports fully air-gapped deployments with offline tool updates and compliance reporting. This is critical for defense contractors, intelligence agencies, and highly regulated financial institutions.
+# Reset password
+visca reset-password <username>
+```
 
-### What infrastructure does VISCA require?
+## Templates
 
-VISCA works on existing infrastructure: Docker, Kubernetes, VMs, or bare metal. Minimum requirements are modest - you can start with a single server. For production deployments, we recommend Kubernetes for scalability and high availability.
+Templates are written in Terraform and describe the infrastructure for workspaces. Templates define:
 
-## Security & Compliance
+- Compute resources (CPU, memory, GPUs)
+- Container images and software dependencies  
+- Environment variables and configuration
+- Networking and storage requirements
 
-### How does VISCA ensure our data never leaves our environment?
+```hcl
+# Example template
+resource "visca_workspace" "dev" {
+  name         = "rl-training"
+  image        = "pytorch/pytorch:latest"
+  cpu          = 4
+  memory       = "16GB"
+  gpu_count    = 1
+  gpu_memory   = "12GB"
+}
+```
 
-All AI processing happens within your infrastructure. VISCA workspaces are isolated containers that cannot communicate externally unless explicitly configured. We provide network policies, egress controls, and data loss prevention to ensure data sovereignty.
+## Workspaces
 
-### What compliance standards does VISCA support?
+Workspaces contain the IDEs, dependencies, and configuration information needed for RL development. Each workspace is:
 
-VISCA is being designed with controls for SOC 2, ISO 27001, HIPAA, FedRAMP, and PCI DSS in mind. We're building audit logging, access controls, vulnerability scanning, and compliance reporting capabilities.
+- Isolated from other workspaces
+- Automatically managed (start/stop/scale)
+- Accessible via SSH, web IDEs, or desktop applications
+- Version controlled with templates
 
-### How do you prevent supply chain attacks on AI tools?
+## Self-Hosting
 
-VISCA will include cryptographic verification of AI tool packages and dependencies, vulnerability scanning of components, and isolated execution environments. We're building security verification capabilities for AI tools.
+Deploy VISCA on your own infrastructure:
 
-### Can we integrate VISCA with our existing SSO and access controls?
+```shell
+# Docker deployment
+docker run -it --rm \
+  -v ~/.config/visca:/home/visca/.config/visca \
+  -p 3000:3000 \
+  ghcr.io/visca-ai/visca:latest
 
-Yes. VISCA Enterprise integrates with LDAP, Active Directory, SAML, and OIDC providers. We support fine-grained RBAC, group-based access controls, and automated user provisioning/deprovisioning.
+# Kubernetes deployment
+kubectl apply -f https://raw.githubusercontent.com/visca-ai/visca/main/install/kubernetes/
 
-## Pricing & Business Model
+# Manual installation
+visca server \
+  --postgres-url postgresql://user:pass@localhost/visca \
+  --access-url https://visca.company.com \
+  --wildcard-access-url "*.visca.company.com"
+```
 
-### What's your pricing model?
+## Documentation
 
-| Feature | Community | Standard | Premium | Enterprise |
-|---------|-----------|----------|---------|------------|
-| **Base Price** | Free | $6/user/month | $17/user/month | Custom Pricing |
-| **Minimum Commitment** | - | Monthly | Annual | Annual |
-| **AI Workspace Templates** | ✅ | ✅ | ✅ | ✅ |
-| **CLI Management** | ✅ | ✅ | ✅ | ✅ |
-| **Team Collaboration** | ✅ | ✅ | ✅ | ✅ |
-| **Web UI** | ❌ | ✅ | ✅ | ✅ |
-| **SSO Integration** | ❌ | ❌ | ✅ | ✅ |
-| **RBAC & Groups** | ❌ | ❌ | ✅ | ✅ |
-| **Compliance Reporting** | ❌ | ❌ | ✅ | ✅ |
-| **Audit Logging** | ❌ | ❌ | ❌ | ✅ |
-| **Air-gapped Deployment** | ❌ | ❌ | ❌ | ✅ |
-| **Custom Templates** | ❌ | ❌ | ❌ | ✅ |
-| **Support Level** | Community | Business Hours | 24/7 | Dedicated CSM |
+- **[Installation](https://docs.visca.ai/install)**: Complete installation guide
+- **[Templates](https://docs.visca.ai/templates)**: Creating and managing templates
+- **[Workspaces](https://docs.visca.ai/workspaces)**: Workspace management
+- **[CLI](https://docs.visca.ai/cli)**: Command line reference
+- **[Administration](https://docs.visca.ai/admin)**: Server administration
+- **[API](https://docs.visca.ai/api)**: REST API documentation
 
-**Volume discounts available:** 10+ users get 10-25% off depending on tier.  
-**Enterprise pricing:** Contact [enterprise@visca.ai](mailto:enterprise@visca.ai) for custom pricing based on deployment requirements, security needs, and support level.
+## Community
 
-### Why should we pay for this instead of building it ourselves?
-
-Building enterprise-grade AI infrastructure typically takes 12-18 months and costs $500K-2M in engineering time. You'd need expertise in AI, security, compliance, and infrastructure. VISCA gives you this immediately for a fraction of the cost, plus ongoing updates and support.
-
-### Do you offer professional services for deployment?
-
-For enterprise customers, we provide deployment assistance, security integration consulting, and ongoing support as we scale.
-
-## Getting Started
-
-### How long does it take to deploy VISCA?
-
-VISCA is currently in development. We're targeting:
-
-- **Alpha release**: Q3 2025
-- **Beta with early customers**: Q4 2025
-- **Production-ready**: 2026
-
-### What's included in a pilot program?
-
-We're developing pilot programs for early enterprise customers. Contact us to discuss requirements and timeline.
-
-### How do we get started?
-
-1. **Schedule demo**: See VISCA development roadmap and planned features
-2. **Early access**: Join our beta program for MVP testing
-3. **Partnership**: Work with us to shape enterprise requirements
-
-Contact [enterprise@visca.ai](mailto:enterprise@visca.ai) to begin.
+- **[Discord](https://discord.gg/v36hfGyJeN)**: Community chat and support
+- **[GitHub Issues](https://github.com/visca-ai/visca/issues)**: Bug reports and feature requests
+- **[GitHub Discussions](https://github.com/visca-ai/visca/discussions)**: Questions and ideas
 
 ## Contributing
 
-We welcome contributions to VISCA! To get started:
+We welcome contributions. See [CONTRIBUTING.md](CONTRIBUTING.md) for development setup and guidelines.
 
-1. Fork the repository
-2. Create your feature branch (`git checkout -b feature/amazing-feature`)
-3. Commit your changes (`git commit -m 'Add some amazing feature'`)
-4. Push to the branch (`git push origin feature/amazing-feature`)
-5. Open a Pull Request
-
-For major changes, please open an issue first to discuss what you'd like to change.
-
-## Our Story
-
-VISCA was born from firsthand experience with enterprise AI adoption barriers. Our team witnessed how AI proof-of-concepts would take 6+ months to pass security reviews in regulated environments. This friction meant promising AI tools were abandoned despite clear business value.
-
-We're building VISCA to solve this problem - making enterprise AI adoption safe, compliant, and fast.
-
-## Get Involved
-
-- **Developers**: [Star our GitHub repo](https://github.com/visca-ai/core)
-- **Early Adopters**: [Join our beta program](https://visca.ai/beta)
-- **Enterprises**: [Schedule a demo](https://visca.ai/demo)
+```shell
+# Development setup
+git clone https://github.com/visca-ai/visca.git
+cd visca
+make build
+make install
+```
 
 ## License
 
-VISCA Core is MIT licensed. Enterprise features are available under a commercial license.
+Licensed under the [MIT License](LICENSE).
+
+---
+
+**[Website](https://visca.ai) • [Platform](https://visca.dev) • [Documentation](https://docs.visca.ai) • [Community](https://discord.gg/v36hfGyJeN)**
